@@ -10,7 +10,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-username/mindmatrix-lite.git
+git clone https://github.com/perlinson/mindmatrix-lite.git
 cd mindmatrix-lite
 
 # 安装依赖
@@ -305,8 +305,8 @@ setTimeout(() => {
 ## 📞 联系方式
 
 如有问题或建议，请通过以下方式联系：
-- GitHub Issues: [提交问题](https://github.com/your-username/mindmatrix-lite/issues)
-- Email: your-email@example.com
+- GitHub Issues: [提交问题](https://github.com/perlinson/mindmatrix-lite/issues)
+- 仓库地址: https://github.com/perlinson/mindmatrix-lite
 
 ---
 
