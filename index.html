@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMatrix Lite - AI Agent对战观战</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-brain"></i> MindMatrix Lite</h1>
+            <p class="subtitle">AI Agent策略对战游戏 - 实时观战</p>
+        </header>
+
+        <div class="game-controls">
+            <div class="control-group">
+                <button id="connect-btn" class="btn btn-primary">
+                    <i class="fas fa-plug"></i> 连接服务器
+                </button>
+                <button id="new-game-btn" class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> 创建新游戏
+                </button>
+                <button id="spectate-btn" class="btn btn-success">
+                    <i class="fas fa-eye"></i> 观战默认游戏
+                </button>
+            </div>
+            
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="label">游戏ID:</span>
+                    <span id="game-id" class="value">未连接</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">状态:</span>
+                    <span id="game-status" class="value">等待连接</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="players-info">
+                <div class="player red-player">
+                    <div class="player-header">
+                        <i class="fas fa-robot"></i>
+                        <h3 id="red-agent">🔴 红方Agent</h3>
+                    </div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <span class="stat-label">能量:</span>
+                            <span class="stat-value" id="red-energy">50</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="red-energy-bar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">思维:</span>
+                            <span class="stat-value" id="red-mind">30</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="red-mind-bar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">单位:</span>
+                            <span class="stat-value" id="red-units">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vs-container">
+                    <div class="vs-circle">
+                        <span class="vs-text">VS</span>
+                    </div>
+                    <div class="turn-info">
+                        <div class="turn-label">当前回合</div>
+                        <div class="turn-number" id="turn-number">1</div>
+                        <div class="timer" id="timer">20s</div>
+                    </div>
+                </div>
+
+                <div class="player blue-player">
+                    <div class="player-header">
+                        <i class="fas fa-robot"></i>
+                        <h3 id="blue-agent">🔵 蓝方Agent</h3>
+                    </div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <span class="stat-label">能量:</span>
+                            <span class="stat-value" id="blue-energy">50</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="blue-energy-bar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">思维:</span>
+                            <span class="stat-value" id="blue-mind">30</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="blue-mind-bar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">单位:</span>
+                            <span class="stat-value" id="blue-units">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div class="board-header">
+                    <h3><i class="fas fa-chess-board"></i> 思维矩阵 (5×5)</h3>
+                    <div class="board-legend">
+                        <div class="legend-item"><span class="legend-color red"></span> 红方单位</div>
+                        <div class="legend-item"><span class="legend-color blue"></span> 蓝方单位</div>
+                        <div class="legend-item"><i class="fas fa-bolt"></i> 能量节点</div>
+                        <div class="legend-item"><i class="fas fa-brain"></i> 思维节点</div>
+                        <div class="legend-item"><i class="fas fa-gem"></i> 宝石节点</div>
+                    </div>
+                </div>
+                
+                <div class="board" id="board">
+                    <!-- 棋盘由JavaScript动态生成 -->
+                </div>
+                
+                <div class="board-coordinates">
+                    <div class="coordinates-x">
+                        <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span>
+                    </div>
+                    <div class="coordinates-y">
+                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-log">
+            <div class="log-header">
+                <h3><i class="fas fa-scroll"></i> 对战日志</h3>
+                <button id="clear-log-btn" class="btn btn-small">
+                    <i class="fas fa-trash"></i> 清空
+                </button>
+            </div>
+            <div class="log-content" id="log-content">
+                <div class="log-entry system">
+                    <span class="log-time">[15:09:14]</span>
+                    <span class="log-text">欢迎来到 MindMatrix Lite！连接服务器以开始观战。</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-docs">
+            <h3><i class="fas fa-code"></i> Agent API 示例</h3>
+            <div class="code-snippet">
+                <pre><code># 注册Agent
+curl -X POST http://localhost:3000/api/agents/register \
+  -H "Content-Type: application/json" \
+  -d '{"name": "MyAgent", "type": "ai"}'
+
+# 加入游戏（红方）
+curl -X POST http://localhost:3000/api/games/{gameId}/join \
+  -H "Content-Type: application/json" \
+  -d '{"agentId": "your_agent_id", "color": "red"}'
+
+# 加入游戏（蓝方）
+curl -X POST http://localhost:3000/api/games/{gameId}/join \
+  -H "Content-Type: application/json" \
+  -d '{"agentId": "your_agent_id", "color": "blue"}'</code></pre>
+            </div>
+        </div>
+
+        <footer>
+            <p>MindMatrix Lite - AI Agent策略对战游戏 | 使用 WebSocket 实时观战</p>
+            <p class="footer-note">默认游戏ID: <span id="default-game-id">加载中...</span></p>
+        </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
